@@ -79,7 +79,7 @@
       </div>
     </div>
     <div>
-      <a @click="deleteAccount" href="#" style="color: gray;" v-if="(this.$route.params.userid == loginUser.id)">회원탈퇴</a>
+      <a @click="deleteAccount" href="#" class="delete-account" v-if="(this.$route.params.userid == loginUser.id)">회원탈퇴</a>
     </div>
   </div>
 </template>
@@ -89,7 +89,7 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
-const AUTH_JWT_TOKEN = { Authorization : `JWT ${localStorage.getItem('jwt')}`}
+// const AUTH_JWT_TOKEN = { Authorization : `JWT ${localStorage.getItem('jwt')}`}
 const POSTER_URL = process.env.VUE_APP_POSTER_URL
 
 export default {
@@ -157,8 +157,8 @@ export default {
     // 찜한 영화 리스트
     axios({
       method: 'get',
-      url: `${SERVER_URL}/accounts/mycart/`,
-      headers: AUTH_JWT_TOKEN
+      url: `${SERVER_URL}/accounts/mycart/${this.userId}/`,
+      headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
     })
     .then(res => {
       this.cartMovies = res.data
@@ -169,8 +169,8 @@ export default {
     // 평점을 남긴 영화 리스트
     axios({
       method: 'get',
-      url: `${SERVER_URL}/accounts/myrated/`,
-      headers: AUTH_JWT_TOKEN
+      url: `${SERVER_URL}/accounts/myrated/${this.userId}/`,
+      headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`}
     })
     .then(res => {
       this.ratedMovies = res.data
@@ -181,8 +181,8 @@ export default {
     // 작성한 게시글
     axios({
       method: 'get',
-      url: `${SERVER_URL}/accounts/myarticles/`,
-      headers: AUTH_JWT_TOKEN
+      url: `${SERVER_URL}/accounts/myarticles/${this.userId}/`,
+      headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
     })
     .then(res => {
       this.articleList = res.data
@@ -193,8 +193,8 @@ export default {
     // 남긴 한줄 댓글
     axios({
       method: 'get',
-      url: `${SERVER_URL}/accounts/mycomments/`,
-      headers: AUTH_JWT_TOKEN
+      url: `${SERVER_URL}/accounts/mycomments/${this.userId}/`,
+      headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
     })
     .then(res => {
       this.commentList = res.data
@@ -254,6 +254,12 @@ export default {
   .item.profile-movie-item {
     cursor: pointer;
     margin-bottom: 1rem;
+  }
+
+  .delete-account {
+    color: gray; 
+    display: inline-block; 
+    margin-top: 4rem;
   }
 
 

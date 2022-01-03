@@ -122,7 +122,6 @@ import Comment from '@/components/Comment.vue'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 const POSTER_URL = process.env.VUE_APP_POSTER_URL
-const AUTH_JWT_TOKEN = { Authorization : `JWT ${localStorage.getItem('jwt')}`}
 
 export default {
     name: 'MovieDetail',
@@ -150,7 +149,7 @@ export default {
           axios({
             method: 'post',
             url: `${SERVER_URL}/movies/${this.selectedMovie.id}/cart/`,
-            headers: AUTH_JWT_TOKEN
+            headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`}
           })
           .then(() => {
             this.updateCartState()
@@ -172,7 +171,7 @@ export default {
                 axios({
                   method: 'put',
                   url: `${SERVER_URL}/movies/${this.selectedMovie.id}/rating/`,
-                  headers: AUTH_JWT_TOKEN,
+                  headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
                   data: { rate : targetScore },
                 })
                 .then(() => {
@@ -187,7 +186,7 @@ export default {
               axios({
                 method: 'post',
                 url: `${SERVER_URL}/movies/${this.selectedMovie.id}/rating/`,
-                headers: AUTH_JWT_TOKEN,
+                headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
                 data: { rate : targetScore },
               })
               .then(() => {
@@ -208,8 +207,8 @@ export default {
         // cart data
         axios({
           method: 'get',
-          url: `${SERVER_URL}/accounts/mycart/`,
-          headers: AUTH_JWT_TOKEN
+          url: `${SERVER_URL}/accounts/mycart/${this.loginUser.id}/`,
+          headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
         })
         .then((res) => {
           this.myCart = res.status == 204? [] : res.data
@@ -224,7 +223,7 @@ export default {
         axios({
           method: 'get',
           url: `${SERVER_URL}/movies/${this.selectedMovie.id}/rating/`,
-          headers: AUTH_JWT_TOKEN
+          headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
         })
         .then((res) => {
           this.ratingScore = ((res.status >= 200 && res.status <= 202) && res.data.rate) ? res.data.rate : 0

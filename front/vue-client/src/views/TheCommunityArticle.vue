@@ -54,7 +54,6 @@ import axios from 'axios'
 import Comment from '@/components/Comment.vue'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
-const AUTH_JWT_TOKEN = { Authorization : `JWT ${localStorage.getItem('jwt')}`}
 
 export default {
     name: 'CommunityArticle',
@@ -77,7 +76,7 @@ export default {
         axios({
           method: 'post',
           url: `${SERVER_URL}/community/${this.article.id}/like/`,
-          headers: AUTH_JWT_TOKEN
+          headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`}
         })
           .then(() => {})
           .catch(err => {
@@ -102,7 +101,7 @@ export default {
         axios({
           method: 'get',
           url: `${SERVER_URL}/community/${article_id}/like/`,
-          headers: AUTH_JWT_TOKEN
+          headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
         })
           .then(res => {
             this.likeState = res.data.liked
@@ -119,7 +118,7 @@ export default {
         axios({
           method: 'delete',
           url: `${SERVER_URL}/community/${article.id}/`,
-          headers: AUTH_JWT_TOKEN
+          headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
         })
         .then(() => {
           this.$router.push({ name: 'Community' })

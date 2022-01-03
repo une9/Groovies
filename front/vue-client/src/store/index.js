@@ -51,7 +51,6 @@ export default new Vuex.Store({
   },
   actions: {
     onSearch: function ({ commit }, searchKeyword) {
-      console.log('actions:onSearch', searchKeyword)
       commit('ON_SEARCH', searchKeyword)
     },
     resetSearchKeyword: function ({ commit }) {

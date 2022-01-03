@@ -82,7 +82,6 @@
 import axios from 'axios'
 import { mapState } from 'vuex'
 
-const AUTH_JWT_TOKEN = { Authorization : `JWT ${localStorage.getItem('jwt')}`}
 const POSTER_URL = process.env.VUE_APP_POSTER_URL
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
@@ -107,7 +106,7 @@ export default {
           axios({
             method: 'post',
             url: `${SERVER_URL}/movies/${this.selectedMovie.id}/cart/`,
-            headers: AUTH_JWT_TOKEN
+            headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`}
           })
           .then(() => {
             this.updateCartState()
@@ -125,8 +124,8 @@ export default {
         if ((this.login == true) && (this.loginUser.id != '')) {
           axios({
             method: 'get',
-            url: `${SERVER_URL}/accounts/mycart/`,
-            headers: AUTH_JWT_TOKEN
+            url: `${SERVER_URL}/accounts/mycart/${this.loginUser.id}/`,
+            headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`}
           })
           .then((res) => {
             this.myCart = res.status == 204? [] : res.data

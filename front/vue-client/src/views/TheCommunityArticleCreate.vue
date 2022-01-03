@@ -24,7 +24,7 @@
     </div>
 
     <div id="article-create-footer">
-      <button v-if="this.$route.query.article > 0" @click="updateArticle">수정</button>
+      <button v-if="this.$route.query.article > 0" @click="updateArticle" class="btn btn-primary">수정</button>
       <button v-else @click="createArticle" class="btn btn-primary">작성</button>
     </div>
   </div>
@@ -35,7 +35,6 @@ import { mapState } from 'vuex'
 import axios from 'axios'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
-const AUTH_JWT_TOKEN = { Authorization : `JWT ${localStorage.getItem('jwt')}`}
 
 export default {
   name: 'CommunityArticleCreate',
@@ -53,7 +52,7 @@ export default {
       axios({
         method: 'post',
         url: `${SERVER_URL}/community/create/`,
-        headers: AUTH_JWT_TOKEN,
+        headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
         data: this.article
       })
         .then((res) => {
@@ -67,7 +66,7 @@ export default {
       axios({
         method: 'put',
         url: `${SERVER_URL}/community/${this.$route.query.article}/`,
-        headers: AUTH_JWT_TOKEN,
+        headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
         data: this.article
       })
         .then(res => {

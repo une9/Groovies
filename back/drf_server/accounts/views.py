@@ -82,8 +82,9 @@ def delete(request, profile_pk):
 
 
 @api_view(['GET'])
-def show_cart(request):
-    cart_list = Cart.objects.filter(user=request.user)
+def show_cart(request, profile_pk):
+    user = get_user_model().objects.get(pk=profile_pk)
+    cart_list = Cart.objects.filter(user=user)
     if cart_list:
         movies = Movie.objects.none()
         for item in cart_list:
@@ -96,8 +97,9 @@ def show_cart(request):
 
 
 @api_view(['GET'])
-def rated_movies(request):
-    rated_list = Rating.objects.filter(user=request.user)
+def rated_movies(request, profile_pk):
+    user = get_user_model().objects.get(pk=profile_pk)
+    rated_list = Rating.objects.filter(user=user)
     if rated_list:
         movies = Movie.objects.none()
         for item in rated_list:
@@ -109,8 +111,9 @@ def rated_movies(request):
 
 
 @api_view(['GET'])
-def my_comments(request):
-    comment_list = Comment.objects.filter(user=request.user)
+def my_comments(request, profile_pk):
+    user = get_user_model().objects.get(pk=profile_pk)
+    comment_list = Comment.objects.filter(user=user)
     if comment_list:
         serializers = CommentSerializer(comment_list, many=True)
         return Response(serializers.data)
@@ -118,8 +121,9 @@ def my_comments(request):
 
 
 @api_view(['GET'])
-def my_articles(request):
-    article_list = Article.objects.filter(user=request.user)
+def my_articles(request, profile_pk):
+    user = get_user_model().objects.get(pk=profile_pk)
+    article_list = Article.objects.filter(user=user)
     if article_list:
         serializers = ArticleListSerializer(article_list, many=True)
         return Response(serializers.data)
