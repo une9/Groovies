@@ -79,7 +79,6 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
-const AUTH_JWT_TOKEN = { Authorization : `JWT ${localStorage.getItem('jwt')}`}
 
 export default {
     name: 'Signup',
@@ -193,11 +192,10 @@ export default {
           })
       },
       update: function () {
-        if (this.credentials.nickname !== '') {
-          axios({
+        axios({
             method: 'put',
             url: `${SERVER_URL}/accounts/profile/${this.loginUser.id}/update/`,
-            headers: AUTH_JWT_TOKEN,
+            headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
             data: {
               profile_path: this.credentials.profile_path,
               nickname: this.credentials.nickname,
@@ -208,31 +206,13 @@ export default {
           })
             .then(() => {
               this.$router.push({ name: 'UserProfile', params: { userid: this.loginUser.id }})
+              this.$store.dispatch('updateLoginUserInfo', {
+                nickname: this.credentials.nickname, 
+                profile_path: this.credentials.profile_path})
             })
             .catch(err => {
               console.log(err)
             })
-        } else {
-          axios({
-            method: 'put',
-            url: `${SERVER_URL}/accounts/profile/${this.loginUser.id}/update/`,
-            headers: AUTH_JWT_TOKEN,
-            data: {
-              profile_path: this.credentials.profile_path,
-              nickname: this.loginUser.nickname,
-              password: this.credentials.password,
-              passwordConfirmation: this.credentials.passwordConfirmation,
-              username: this.loginUser.username
-            }
-          })
-            .then(() => {
-              this.$router.push({ name: 'UserProfile', params: { userid: this.loginUser.id }})
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        }
-        
       },
     },
     created: function () {

@@ -41,8 +41,6 @@ export default {
   },
   methods: {
     logout: function () {
-        localStorage.removeItem('jwt')
-        localStorage.removeItem('profilepath')
         this.$store.dispatch('logout')
         this.$router.push({ name: 'Home' })
         this.$router.go()

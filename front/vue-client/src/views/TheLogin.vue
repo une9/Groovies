@@ -15,6 +15,7 @@
       </div>
       <button @click="login(credentials)" class="btn btn-primary">로그인</button>
     </div>
+    <a @click="moveToSignup" href="#" class="link-button">회원가입</a>
   </div>
 </template>
 
@@ -48,6 +49,9 @@ export default {
             this.error_message = "로그인 정보가 틀렸습니다!"
             this.credentials.password = ''
           })
+      },
+      moveToSignup: function() {
+        this.$router.push({ name: 'Signup' })
       }
     },
 }

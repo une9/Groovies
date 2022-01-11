@@ -40,7 +40,6 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
-const AUTH_JWT_TOKEN = { Authorization : `JWT ${localStorage.getItem('jwt')}`}
 
 export default {
     name: 'Comment',
@@ -64,7 +63,7 @@ export default {
                 method: 'post',
                 url: `${SERVER_URL}/${this.targetPage}/${this.targetId}/comment/create/`,
                 data: { content: this.commentInput },
-                headers: AUTH_JWT_TOKEN
+                headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`}
               })
               .then(() => {
                 this.$router.go()
@@ -83,7 +82,7 @@ export default {
           axios({
               method: 'delete',
               url: `${SERVER_URL}/${this.targetPage}/${this.targetId}/comment/${comment.id}/`,
-              headers: AUTH_JWT_TOKEN
+              headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`}
           })
           .then(() => {
               this.$router.go()

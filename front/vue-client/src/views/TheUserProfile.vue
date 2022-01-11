@@ -79,7 +79,7 @@
       </div>
     </div>
     <div>
-      <a @click="deleteAccount" href="#" class="delete-account" v-if="(this.$route.params.userid == loginUser.id)">회원탈퇴</a>
+      <a @click="deleteAccount" href="#" class="link-button" v-if="(this.$route.params.userid == loginUser.id)">회원탈퇴</a>
     </div>
   </div>
 </template>
@@ -89,7 +89,6 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
-// const AUTH_JWT_TOKEN = { Authorization : `JWT ${localStorage.getItem('jwt')}`}
 const POSTER_URL = process.env.VUE_APP_POSTER_URL
 
 export default {
@@ -110,7 +109,6 @@ export default {
     deleteAccount: function () {
       axios.delete(`${SERVER_URL}/accounts/profile/${this.userId}/delete/`)
         .then(() => {
-          localStorage.removeItem('profilepath')
           this.$store.dispatch('logout')
         })
         .then(() => {
@@ -144,63 +142,41 @@ export default {
     },
   },
   created: function () {
-    // 유저 정보
-    axios.get(`${SERVER_URL}/accounts/profile/${this.userId}/`)
-    .then(res => {
-      this.username = res.data.username
-      this.nickname = res.data.nickname ? res.data.nickname : '(없음)'
-      this.profile_path = res.data.profile_path
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    // 찜한 영화 리스트
-    axios({
-      method: 'get',
-      url: `${SERVER_URL}/accounts/mycart/${this.userId}/`,
-      headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
-    })
-    .then(res => {
-      this.cartMovies = res.data
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    // 평점을 남긴 영화 리스트
-    axios({
-      method: 'get',
-      url: `${SERVER_URL}/accounts/myrated/${this.userId}/`,
-      headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`}
-    })
-    .then(res => {
-      this.ratedMovies = res.data
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    // 작성한 게시글
-    axios({
-      method: 'get',
-      url: `${SERVER_URL}/accounts/myarticles/${this.userId}/`,
-      headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
-    })
-    .then(res => {
-      this.articleList = res.data
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    // 남긴 한줄 댓글
-    axios({
-      method: 'get',
-      url: `${SERVER_URL}/accounts/mycomments/${this.userId}/`,
-      headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
-    })
-    .then(res => {
-      this.commentList = res.data
-    })
-    .catch(err => {
-      console.log(err)
+    const createAxios = (url) => {
+      return axios({
+        method: 'get',
+        url: url,
+        headers: { Authorization : `JWT ${localStorage.getItem('jwt')}`},
+      })
+    }
+    
+    const userInfo = () => createAxios(`${SERVER_URL}/accounts/profile/${this.userId}/`)                 // 유저 정보
+    const moviesInCart = () => createAxios(`${SERVER_URL}/accounts/mycart/${this.userId}/`)             // 찜한 영화 리스트
+    const ratedMovies = () => createAxios(`${SERVER_URL}/accounts/myrated/${this.userId}/`)             // 평점을 남긴 영화 리스트
+    const writtenArticles = () => createAxios(`${SERVER_URL}/accounts/myarticles/${this.userId}/`)      // 작성한 게시글
+    const writtenComments = () => createAxios(`${SERVER_URL}/accounts/mycomments/${this.userId}/`)      // 남긴 한줄 댓글
+
+    axios.all([userInfo(), moviesInCart(), ratedMovies(), writtenArticles(), writtenComments()])
+    .then(axios.spread((userInfoResp, moviesInCartResp, ratedMoviesResp, writtenArticlesResp, writtenCommentsResp) => {
+      // userInfo
+      this.username = userInfoResp.data.username
+      this.nickname = userInfoResp.data.nickname ? userInfoResp.data.nickname : '(없음)'
+      this.profile_path = userInfoResp.data.profile_path
+
+      // moviesInCart
+      this.cartMovies = moviesInCartResp.data
+
+      // ratedMovies
+      this.ratedMovies = ratedMoviesResp.data
+
+      // writtenArticles
+      this.articleList = writtenArticlesResp.data
+
+      // writtenComments
+      this.commentList = writtenCommentsResp.data
+    }))
+    .catch((error) => {
+      console.error(error)
     })
   },
   filters: {
@@ -256,10 +232,14 @@ export default {
     margin-bottom: 1rem;
   }
 
-  .delete-account {
+  .link-button {
     color: gray; 
     display: inline-block; 
     margin-top: 4rem;
+  }
+
+  .link-button:hover {
+    color: white;
   }
 
 

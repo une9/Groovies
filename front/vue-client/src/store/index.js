@@ -41,12 +41,18 @@ export default new Vuex.Store({
         nickname: '',
         profile_path: 0
       }
+      localStorage.removeItem('jwt')
+      localStorage.removeItem('profilepath')
     },
     LOGIN: function (state) {
       state.login = true
     },
     UPDATE_IS_MYSELF: function (state, BOOL) {
       state.isMyself = BOOL
+    },
+    UPDATE_LOGIN_USER_INFO: function (state, info) {
+      state.loginUser.nickname = info.nickname
+      state.loginUser.profile_path = info.profile_path
     },
   },
   actions: {
@@ -99,8 +105,11 @@ export default new Vuex.Store({
     login: function ({ commit }) {
       commit('LOGIN')
     },
-    updateIsMySelf: function ({commit}, BOOL) {
+    updateIsMySelf: function ({ commit }, BOOL) {
       commit('UPDATE_IS_MYSELF', BOOL)
+    },
+    updateLoginUserInfo: function ({ commit }, info) {
+      commit('UPDATE_LOGIN_USER_INFO', info)
     },
   },
   getters: {

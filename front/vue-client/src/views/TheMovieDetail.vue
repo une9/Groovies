@@ -32,7 +32,7 @@
               <g id="레이어_2" data-name="레이어 2">
               <g id="레이어_1-2" data-name="레이어 1">
               <path class="cls-1" 
-              @click="rate" :data-score="Number(idx)+1"
+              :data-score="Number(idx)+1"
               :class="{ 'fullStar': idx < ratingScore }" 
               d="M11.81,1.29l2,4.05a1.44,1.44,0,0,0,1.07.78l4.47.65a1.42,1.42,0,0,1,.79,2.43l-3.23,3.15a1.41,1.41,0,0,0-.41,1.26l.76,4.45a1.42,1.42,0,0,1-2.06,1.5l-4-2.1a1.42,1.42,0,0,0-1.33,0l-4,2.1a1.42,1.42,0,0,1-2.07-1.5l.77-4.45a1.47,1.47,0,0,0-.41-1.26L.93,9.2a1.43,1.43,0,0,1,.79-2.43l4.47-.65a1.44,1.44,0,0,0,1.07-.78l2-4A1.43,1.43,0,0,1,11.81,1.29Z"/></g></g>
           </svg>
@@ -190,7 +190,7 @@ export default {
                 data: { rate : targetScore },
               })
               .then(() => {
-                this.updateRatingState()
+                this.updateRatingState() 
               })
               .catch(err => {
                 console.log(err)

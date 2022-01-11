@@ -9,7 +9,7 @@ from .models import Article, Comment
 # 게시글 전체 조회, 게시글 작성
 @api_view(['GET'])
 def article_list(request):
-    articles = Article.objects.all()
+    articles = Article.objects.order_by('-pk')
     if articles:
         serializers = ArticleListSerializer(articles, many=True)
         return Response(serializers.data)
