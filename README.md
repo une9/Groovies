@@ -1,8 +1,6 @@
 # 최종 프로젝트
 
-<video src="README.assets/Groovies_play_lowQ.mp4"></video>
-
-(고화질: https://youtu.be/sl8WIdMBYOI)
+실행 영상: https://youtu.be/sl8WIdMBYOI
 
 ## 0. 아키텍처
 
