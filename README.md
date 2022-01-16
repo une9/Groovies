@@ -1,14 +1,8 @@
 # 최종 프로젝트
 
-<html>
-    <body>
+<video src="README.assets/Groovies_play_lowQ.mp4"></video>
 
-        <object data='https://www.youtube.com/embed/sl8WIdMBYOI' 
-        width='560px' height='315px'>
-    	</object>
-​    </body>
-
-</html>
+(고화질: https://youtu.be/sl8WIdMBYOI)
 
 ## 0. 아키텍처
 
