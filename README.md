@@ -7,6 +7,7 @@
         width='560px' height='315px'>
     	</object>
 ​    </body>
+
 </html>
 
 ## 0. 아키텍처
