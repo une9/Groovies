@@ -1,6 +1,13 @@
 # 최종 프로젝트
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/sl8WIdMBYOI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<html>
+    <body>
+
+        <object data='https://www.youtube.com/embed/sl8WIdMBYOI' 
+        width='560px' height='315px'>
+    	</object>
+​    </body>
+</html>
 
 ## 0. 아키텍처
 
