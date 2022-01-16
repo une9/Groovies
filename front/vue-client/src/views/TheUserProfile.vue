@@ -20,7 +20,7 @@
 
         <div>
           <h3>별점을 등록한 영화</h3>
-          <ul v-if="ratedMovies" class="movieList">
+          <ul v-if="ratedMovies" class="profile-movieList">
             <li @click="moveToMovie(ratedMovie.id)" 
             v-for="(ratedMovie, index) in ratedMovies" :key="index" class="item profile-movie-item">
               <img v-if="ratedMovie.poster_path" :src="moviePoster(ratedMovie)" class="poster" alt="poster_img">
@@ -36,7 +36,7 @@
         <hr>
         <div>
           <h3>{{ (this.$route.params.userid == loginUser.id) ? '내가' : `${nickname}님이` }} 찜한 영화</h3>
-          <ul v-if="cartMovies" class="movieList">
+          <ul v-if="cartMovies" class="profile-movieList">
             <li v-for="(cartMovie, index) in cartMovies" :key="index" @click="moveToMovie(cartMovie.id)" class="item profile-movie-item">
               <img v-if="cartMovie.poster_path" :src="moviePoster(cartMovie)" class="poster" alt="poster_img">
               <div>
@@ -163,16 +163,9 @@ export default {
       this.nickname = userInfoResp.data.nickname ? userInfoResp.data.nickname : '(없음)'
       this.profile_path = userInfoResp.data.profile_path
 
-      // moviesInCart
       this.cartMovies = moviesInCartResp.data
-
-      // ratedMovies
       this.ratedMovies = ratedMoviesResp.data
-
-      // writtenArticles
       this.articleList = writtenArticlesResp.data
-
-      // writtenComments
       this.commentList = writtenCommentsResp.data
     }))
     .catch((error) => {
@@ -215,12 +208,28 @@ export default {
     font-size: 1.5rem;
   }
 
-  /* .movieList {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  } */
+  .profile-movieList {
+        padding: 0;
+        max-width: calc(690px + 5rem);
+        margin: 0 auto;
+        list-style-type: none;
+        display: grid;
+        grid-template-columns: repeat(5, calc(138px + 1rem));
+    }
+
+    @media (max-width: 1200px) {
+        .profile-movieList {
+            max-width: calc(552px + 4rem);
+            grid-template-columns: repeat(4, calc(138px + 1rem));
+        }
+    }
+
+    @media (max-width: 992px) {
+        .profile-movieList {
+            max-width: calc(414px + 5rem);
+            grid-template-columns: repeat(3, calc(138px + 1rem));
+        }
+    }
 
   .item {
     display: inline-block;

@@ -28,7 +28,7 @@ export default {
         margin: 0 auto;
         list-style-type: none;
         display: grid;
-        grid-template-columns: repeat(5, 234px)
+        grid-template-columns: repeat(5, 234px);
     }
 
     @media (max-width: 1200px) {
