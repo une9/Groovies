@@ -24,8 +24,25 @@ export default {
 <style>
     .movieList {
         padding: 0;
-        max-width: 1200px;
+        max-width: 1170px;
         margin: 0 auto;
+        list-style-type: none;
+        display: grid;
+        grid-template-columns: repeat(5, 234px)
+    }
+
+    @media (max-width: 1200px) {
+        .movieList {
+            max-width: 936px;
+            grid-template-columns: repeat(4, 234px);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .movieList {
+            max-width: 702px;
+            grid-template-columns: repeat(3, 234px);
+        }
     }
 
 </style>

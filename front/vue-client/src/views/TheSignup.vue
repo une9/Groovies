@@ -218,7 +218,6 @@ export default {
     created: function () {
       this.getAllUsername()
       this.getAllNickname()
-      // console.log(this.loginUser.profile_path)
       this.setProfilePath(this.loginUser.profile_path)
     },
     computed:{

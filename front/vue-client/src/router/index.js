@@ -65,7 +65,11 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+  scrollBehavior () {       //페이지 이동 시 스크롤 맨 위로
+    return { x: 0, y: 0 }
+  }
 })
+
 
 // 같은 페이지에서 parameter만 변경할 때 NavigationDuplicated 에러 발생 방지
 const originalPush = VueRouter.prototype.push;
